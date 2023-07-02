@@ -4,9 +4,12 @@ from celery import Celery
 from os.path import isfile
 from time import time
 from datetime import datetime
-from crawl_util import (is_valid_wb_timestamp, load_cdx_page,
+from crawl_util  import (is_valid_wb_timestamp, load_cdx_page,
                         ERR_BLOCKED_SITE, ERR_EMPTY_RESPONSE)
 
+# from celery import app as celery_app
+
+# __all__ = ['celery_app']
 
 # retry tasks failed with exception
 MAX_ATTEMPTS = 5
@@ -151,12 +154,12 @@ def get_wayback_timestamps_for_domain(domain, start_year, end_year):
             duration, domain, ",".join(snapshot_timestamps)))
 
 
-TESTING = False
+TESTING = True
 
 
 if __name__ == '__main__':
     if TESTING:
-        get_wayback_timestamps_for_domain("000a.biz", 1999, 2019)
+        get_wayback_timestamps_for_domain("000a.biz", 2019, 2023)
         sys.exit()
     assert len(sys.argv) > 3
     domains_file = sys.argv[1]

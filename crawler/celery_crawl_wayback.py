@@ -8,17 +8,20 @@ import logging
 import sys
 import urllib.parse
 import requests
+import websockets
 
 from collections import defaultdict
 from os.path import join, isfile
 from time import time, sleep
 from celery import Celery
+# from celery import app
 from celery.exceptions import SoftTimeLimitExceeded, TimeLimitExceeded
 
 from polyglot.detect import Detector
 from polyglot.detect.base import UnknownLanguage
 from tld import get_fld
-
+# from websockets import client
+from websockets import client
 
 from common import (VisitInfo, POLICY_HTML_DIR,
                     POLICY_PDF_DIR,
@@ -68,6 +71,7 @@ app = Celery('celery_crawl_wayback',
 # We haven't used rate-limiting in the last policy crawl
 # Instead we've used EC2 instances with limited resources
 MAX_NUM_OF_TASKS_PER_MIN = 120
+
 app.control.rate_limit(
     'celery_crawl_wayback.crawl_wayback_snapshot',
     '%d/m' % MAX_NUM_OF_TASKS_PER_MIN)
