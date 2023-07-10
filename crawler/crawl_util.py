@@ -9,7 +9,7 @@ from os.path import dirname, join
 READABILITY_JS_PATH = join(dirname(__file__), 'js/readability/Readability.js')
 READABILITY_SRC = open(READABILITY_JS_PATH).read()
 
-PAGE_LOAD_TIMEOUT = 90000
+PAGE_LOAD_TIMEOUT = 100000
 
 
 async def load_page(page, target_url, url_id=-1, timeout=PAGE_LOAD_TIMEOUT):

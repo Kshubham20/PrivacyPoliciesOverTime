@@ -1,0 +1,14 @@
+celery
+nest-asyncio
+pdftotext
+websockets
+tranco
+tld
+kombu
+amqp
+pyppeteer 
+polyglot
+icu
+pyicu
+pycld2
+morfessor

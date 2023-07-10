@@ -154,12 +154,12 @@ def get_wayback_timestamps_for_domain(domain, start_year, end_year):
             duration, domain, ",".join(snapshot_timestamps)))
 
 
-TESTING = True
+TESTING = False
 
 
 if __name__ == '__main__':
     if TESTING:
-        get_wayback_timestamps_for_domain("000a.biz", 2019, 2023)
+        get_wayback_timestamps_for_domain("google.com", 2019, 2023)
         sys.exit()
     assert len(sys.argv) > 3
     domains_file = sys.argv[1]
@@ -171,5 +171,5 @@ if __name__ == '__main__':
     print("Will crawl domains in %s for the range:[%s, %s]" %
           (domains_file, start_year, end_year))
     for domain in open(domains_file):
-        get_wayback_timestamps_for_domain.delay(domain.rstrip(),
+        get_wayback_timestamps_for_domain(domain.rstrip(),
                                                 start_year, end_year)

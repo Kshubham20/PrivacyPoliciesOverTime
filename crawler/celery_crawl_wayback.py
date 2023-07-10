@@ -10,6 +10,9 @@ import urllib.parse
 import requests
 import websockets
 
+import nest_asyncio
+nest_asyncio.apply()
+
 from collections import defaultdict
 from os.path import join, isfile
 from time import time, sleep
@@ -77,6 +80,8 @@ app.control.rate_limit(
     '%d/m' % MAX_NUM_OF_TASKS_PER_MIN)
 
 
+# logger = logging.getLogger('top100K_2019_2023_lang_detect')
+# hdlr = logging.FileHandler('top100K_2019_2023_lang_detect.log')
 logger = logging.getLogger('puppet_downloader')
 hdlr = logging.FileHandler('puppet_downloader.log')
 formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
@@ -663,11 +668,11 @@ def crawl_wayback_snapshot(url, timestamp, url_id=-1, lang_check=False):
 
 
 # log file with the language detection results
-LANG_DETECTION_CRAWL_LOG = "top100K_1996_2019_lang_detect.log"
+LANG_DETECTION_CRAWL_LOG = "top100K_2019_2023_lang_detect.log"
 
 # whether to use cached language detection results from the
 # LANG_DETECTION_CRAWL_LOG file
-SKIP_LANG_CHECK = False
+SKIP_LANG_CHECK = True
 
 # if defined it will skip the snapshots from this log file
 # SKIP_ALREADY_CRAWLED_SNAPSHOTS = "run_100K_TS.log"
@@ -711,7 +716,7 @@ async def crawl_wayback_for_domains(domains_txt, lang_check=False):
                 continue
             queued_urls.add(url)
             n_snapshots += 1
-            crawl_wayback_snapshot.delay(
+            crawl_wayback_snapshot(
                 url, random.choice(timestamps), n_domains, lang_check)
         else:
             if SKIP_ALREADY_CRAWLED_SNAPSHOTS:
@@ -734,7 +739,7 @@ async def crawl_wayback_for_domains(domains_txt, lang_check=False):
                             domain, ts, n_domains))
                     continue
                 n_snapshots += 1
-                crawl_wayback_snapshot.delay(url, ts, n_domains)
+                crawl_wayback_snapshot(url, ts, n_domains)
 
     logger.info(
         "Queued %d snapshots from %d domains" % (
@@ -763,14 +768,14 @@ def create_crawl_dirs():
     mkdir(POLICY_PDF_DIR)
 
 
-TESTING = False
+TESTING = True
 
 
 if __name__ == '__main__':
     patch_pyppeteer()
     create_crawl_dirs()
     if TESTING:
-        crawl_wayback_snapshot("http://naturalnews.com", "20171001013444",
+        crawl_wayback_snapshot("http://twitter.com", "20150401001358",
                                1, False)
         sys.exit(0)
 
@@ -782,9 +787,9 @@ if __name__ == '__main__':
     start_year = int(sys.argv[2])
     end_year = int(sys.argv[3])
 
-    lang_check = False  # only determine page languages
-    if len(sys.argv) > 4 and sys.argv[4] == "lang_check":
-        lang_check = True
+    lang_check = False # only determine page languages
+    # if len(sys.argv) > 4 and sys.argv[4] == "lang_check":
+    #     lang_check = True
 
     if lang_check:
         logger.info("Will determine English pages in %s" % domains_txt)

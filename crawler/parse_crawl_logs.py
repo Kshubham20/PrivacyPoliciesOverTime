@@ -228,12 +228,19 @@ def analyze_wayback_crawl_logs(log_paths_or_root_dir):
 
 def gen_log_files(root_data_dir):
     return reversed(sorted(
-        glob(join(root_data_dir, "crawl*/data-*/logs/puppet_downloader.log"))))
+        # glob(join(root_data_dir, "crawl*/data-*/logs/puppet_downloader.log"))))
+        # glob(join(root_data_dir,"PrivacyPoliciesOverTime*/Oblivious-*/crawler/puppet_downloader.log"))))
+        # glob(join(root_data_dir,"/crawler/puppet_downloader.log"))))
+        root_data_dir))
+
 
 
 if __name__ == '__main__':
     # use the following to analyze the individual log files
     # analyze_wayback_crawl_logs([LOG_PATH,])
-    root_data_dir = "../data/crawl/"
+    # root_data_dir = "../data/crawl/"
+    root_data_dir= "../Oblivious/PrivacyPoliciesOverTime/crawler/puppet_downloader.log"
+    # root_data_dir="../Oblivious/PrivacyPoliciesOverTime/"
 
-    analyze_wayback_crawl_logs(gen_log_files(root_data_dir))
+    # analyze_wayback_crawl_logs(gen_log_files(root_data_dir))
+    analyze_wayback_crawl_logs(root_data_dir)

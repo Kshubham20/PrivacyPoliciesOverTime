@@ -9,14 +9,35 @@ except ImportError: # Python 3
     from urllib.parse import urljoin, urlparse
 
 
+# PARTIAL_POLICY_TITLES = [
+#     'policy', 'policies', 'cookie', 'security',
+#     'statement', 'terms', 'notice']
+
+# EXACT_POLICY_TITLES = [
+#     "privacy policy", "privacy statement", "privacy", "privacy notice",
+#     "cookie policy", "your privacy", "your privacy rights"]
+
+# PARTIAL_TC_TITLES = [
 PARTIAL_POLICY_TITLES = [
-    'policy', 'policies', 'cookie', 'security',
-    'statement', 'terms', 'notice']
-
+    'terms', 'conditions', 'service', 'agreement', 'user', 'usage'
+]
+# EXACT_TC_TITLES = [
 EXACT_POLICY_TITLES = [
-    "privacy policy", "privacy statement", "privacy", "privacy notice",
-    "cookie policy", "your privacy", "your privacy rights"]
+    "terms of service", "terms and conditions", "terms of use",
+    "user agreement", "service terms", "user terms", "usage terms",
+     'terms', 'conditions', 'service', 'agreement', 'user', 'usage'
+]
 
+# PARTIAL_COOKIE_POLICY_TITLES = [
+# PARTIAL_POLICY_TITLES = [
+#     'cookie', 'cookies'
+# ]
+# # EXACT_COOKIE_POLICY_TITLES = [
+# EXACT_POLICY_TITLES = [
+#     "cookie policy", "cookies policy", "our use of cookies",
+#     "about cookies", "cookie usage", "cookie notice", "cookies notice",
+#     'cookie', 'cookies'
+# ]
 
 def get_abs_link(href, top_url, sanitize=True):
     if href == "#":
